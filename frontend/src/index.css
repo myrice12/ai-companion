@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #fff5f7 0%, #fdf2f8 40%, #fae8ff 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.markdown-body p {
+  margin: 0.5em 0;
+}
+
+.markdown-body pre {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.75rem;
+  border-radius: 1rem;
+  overflow-x: auto;
+}
+
+.markdown-body code {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.1em 0.4em;
+  border-radius: 0.5rem;
+  font-size: 0.9em;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5rem;
+}
+
+@layer components {
+  .cute-card {
+    @apply bg-white/80 backdrop-blur-md rounded-3xl border border-rose-100 shadow-lg shadow-rose-100/50;
+  }
+
+  .input-field {
+    @apply w-full rounded-2xl bg-white/70 border border-rose-100 px-4 py-2.5 text-sm text-rose-900 placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-200 focus:border-rose-300 transition-all;
+  }
+
+  .btn-primary {
+    @apply py-2.5 rounded-2xl bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 text-white text-sm font-bold shadow-md shadow-rose-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply py-2.5 rounded-2xl bg-white/80 border border-rose-100 text-rose-500 text-sm font-semibold hover:bg-rose-50 transition-all disabled:opacity-50;
+  }
+
+  .preset-btn {
+    @apply flex items-center gap-2 px-3 py-2.5 rounded-2xl border border-rose-100 bg-white/60 text-sm text-rose-600 font-medium hover:bg-rose-50 transition-all;
+  }
+
+  .preset-btn-active {
+    @apply bg-gradient-to-r from-rose-100 to-pink-100 border-rose-300 text-rose-700 shadow-sm;
+  }
+
+  .sidebar-item {
+    @apply px-3 py-2.5 rounded-2xl cursor-pointer text-sm transition-all;
+  }
+
+  .sidebar-item-active {
+    @apply bg-gradient-to-r from-rose-200/80 to-pink-200/80 text-rose-800 font-semibold shadow-sm;
+  }
+
+  .sidebar-item-inactive {
+    @apply text-rose-400 hover:bg-white/60 hover:text-rose-600;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounce-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.3s ease-out;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s ease-in-out infinite;
+}
+
+.chat-bg-pattern {
+  background-image: radial-gradient(circle at 20% 20%, rgba(251, 207, 232, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(233, 213, 255, 0.3) 0%, transparent 50%);
+}

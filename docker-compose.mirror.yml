@@ -1,0 +1,16 @@
+# 国内网络拉取 Docker Hub 超时时使用此文件：
+# docker compose -f docker-compose.yml -f docker-compose.mirror.yml up --build -d
+
+services:
+  backend:
+    build:
+      args:
+        PYTHON_IMAGE: docker.m.daocloud.io/library/python:3.11-slim
+        PIP_INDEX: https://pypi.tuna.tsinghua.edu.cn/simple
+
+  frontend:
+    build:
+      args:
+        NODE_IMAGE: docker.m.daocloud.io/library/node:20-alpine
+        NGINX_IMAGE: docker.m.daocloud.io/library/nginx:alpine
+        NPM_REGISTRY: https://registry.npmmirror.com
