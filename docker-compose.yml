@@ -4,6 +4,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: ai-companion-backend
+    ports:
+      - "127.0.0.1:8000:8000"
     volumes:
       - companion-data:/app/data
     extra_hosts:

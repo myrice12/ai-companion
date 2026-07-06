@@ -146,6 +146,9 @@ ai-companion/
 │       └── models/   # 数据库模型
 ├── frontend/         # React 单页应用
 │   └── src/
+├── desktop/          # 桌面小组件（Electron，托盘常驻，与网页端同步）
+│   ├── electron/     # 主进程 + 预加载
+│   └── src/          # 渲染进程（复用 frontend 的 api client）
 ├── docs/screenshots/ # README 用的界面截图
 └── docker-compose.yml
 ```
@@ -181,6 +184,29 @@ ai-companion/
 - API Key 和聊天记录只存在本地 SQLite
 - 界面上 Key 会做掩码处理
 - 别把 `backend/data/`、`.env`、虚拟环境提交到 Git（已在 `.gitignore` 里）
+
+---
+
+## 桌面小组件 🐱
+
+`desktop/` 下是一个 Electron 桌面小组件：常驻系统托盘、悬浮小组件窗口、全局快捷键 `Cmd/Ctrl+Shift+Space` 唤起。
+
+> 桌面端 **和网页端共享同一个 FastAPI 后端和 SQLite**，所以你在网页端建的会话、发的消息，桌面端会自动同步看到，反之亦然。
+
+```bash
+# 1. 先起后端（桌面端只是个客户端）
+docker compose up --build -d
+
+# 2. 启动桌面小组件（开发模式）
+cd desktop
+npm install
+npm run dev
+
+# 或者构建安装包
+npm run dist
+```
+
+详细说明见 [`desktop/README.md`](desktop/README.md)。
 
 ---
 

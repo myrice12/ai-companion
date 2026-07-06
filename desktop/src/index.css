@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: transparent;
+  color: #881337;
+  overflow: hidden;
+  user-select: none;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+textarea {
+  user-select: text;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(251, 113, 133, 0.25);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(251, 113, 133, 0.45);
+}
+
+@layer components {
+  .widget-shell {
+    @apply flex flex-col h-full rounded-3xl overflow-hidden border border-rose-100/70 shadow-2xl shadow-rose-200/40;
+    background: linear-gradient(180deg, rgba(255, 245, 247, 0.96) 0%, rgba(253, 242, 248, 0.96) 100%);
+    backdrop-filter: blur(20px);
+  }
+
+  .titlebar {
+    @apply flex items-center justify-between px-3 py-2 border-b border-rose-100/60 bg-white/40;
+    -webkit-app-region: drag;
+    app-region: drag;
+  }
+
+  .titlebar-button {
+    -webkit-app-region: no-drag;
+    app-region: no-drag;
+    @apply w-7 h-7 rounded-full flex items-center justify-center text-xs text-rose-500 hover:bg-rose-100 hover:text-rose-700 transition-colors;
+  }
+
+  .session-pill {
+    @apply px-2.5 py-1 rounded-full text-xs font-medium text-rose-600 bg-white/70 border border-rose-100 hover:bg-white transition-colors;
+    -webkit-app-region: no-drag;
+    app-region: no-drag;
+  }
+
+  .send-button {
+    -webkit-app-region: no-drag;
+    app-region: no-drag;
+    @apply px-3.5 py-2 rounded-2xl bg-gradient-to-r from-rose-400 to-pink-400 hover:from-rose-500 hover:to-pink-500 text-white text-xs font-bold shadow-md shadow-rose-200 transition-all disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .cute-card {
+    @apply bg-white/85 backdrop-blur-md rounded-3xl border border-rose-100 shadow-lg shadow-rose-100/50;
+  }
+}
+
+.markdown-body p {
+  margin: 0.4em 0;
+}
+
+.markdown-body pre {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  font-size: 0.75rem;
+}
+
+.markdown-body code {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.05em 0.3em;
+  border-radius: 0.4rem;
+  font-size: 0.85em;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.25rem;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounce-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.25s ease-out;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.streaming-dot {
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}

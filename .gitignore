@@ -15,6 +15,11 @@ backend/data/
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+desktop/node_modules/
+desktop/dist/
+desktop/dist-electron/
+desktop/release/
+desktop/.vite/
 
 # Build artifacts
 *.tsbuildinfo

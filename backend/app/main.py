@@ -18,7 +18,7 @@ app = FastAPI(title="AI Companion", lifespan=lifespan)
 
 _cors_origins = os.getenv(
     "CORS_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080",
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,http://localhost:8080,http://127.0.0.1:8080,app://",
 )
 _origins = [o.strip() for o in _cors_origins.split(",") if o.strip()]
 
