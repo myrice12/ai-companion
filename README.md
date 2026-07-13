@@ -1,16 +1,19 @@
 # 小伴 AI 🐱
 
-> 一个跑在自己电脑上的 AI 陪伴聊天小应用——多会话、流式回复、可自定义人设，数据全在本地。
+> 跑在自己电脑上的 AI 陪伴聊天小应用——多会话、流式回复、可自定义人设，数据全在本地。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-3776ab.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ed.svg)](docker-compose.yml)
+[![Electron](https://img.shields.io/badge/electron-widget-47848f.svg)](desktop/)
+
+[快速开始](#跑起来) · [桌面小组件](#桌面小组件) · [功能一览](#能干什么)
 
 ---
 
-## 它长什么样？
+## 界面一览
 
-粉粉的界面，侧边栏管会话，中间聊天，右边调设置。第一次打开会请你配置 LLM API，填好就能开聊。
+粉粉的界面：侧边栏管会话，中间聊天，右边调设置。第一次打开会请你配置 LLM API，填好就能开聊。
 
 <p align="center">
   <img src="docs/screenshots/chat-main.png" alt="主界面：多会话聊天 + 右侧设置面板" width="90%" />
@@ -33,9 +36,9 @@
 市面上好用的聊天工具不少，但我想要一个：
 
 - **数据在自己手里** —— 对话记录、API Key 都存在本地 SQLite，不经过第三方
-- **会话各自独立** —— 不同话题分开聊，每个会话还能配不同的人设
-- **模型随便换** —— OpenAI、DeepSeek、本机 Ollama，或者任何 OpenAI 兼容接口
-- **界面别太冷冰冰** —— 所以做成了现在这种暖暖的风格 ✨
+- **会话各自独立** —— 不同话题分开聊，每个会话还能配不同人设
+- **模型随便换** —— OpenAI、DeepSeek、本机 Ollama，或任何 OpenAI 兼容接口
+- **界面别太冷** —— 所以做成了现在这种暖暖的风格 ✨
 
 ---
 
@@ -43,10 +46,10 @@
 
 - 💬 **多会话** —— 新建、切换、自动标题、导出 Markdown
 - 🌊 **流式输出** —— SSE 实时打字，不用干等
-- 🧠 **上下文管理** —— Token 估算、滑动窗口裁剪，还能开历史摘要压缩
-- 💕 **人设系统** —— 每个会话独立的 System Prompt，温柔陪伴 or 毒舌损友随你定
-- 🔌 **模型接入** —— 预设了常见提供商，也支持自定义 Base URL
-- 🔒 **隐私友好** —— Key 脱敏展示，数据不出本机（除了你配置的 LLM 服务商）
+- 🧠 **上下文管理** —— Token 估算、滑动窗口裁剪，可开历史摘要压缩
+- 💕 **人设系统** —— 每个会话独立 System Prompt，温柔陪伴或毒舌损友随你定
+- 🔌 **模型接入** —— 预设常见提供商，也支持自定义 Base URL
+- 🔒 **隐私友好** —— Key 脱敏展示，数据不出本机（除你配置的 LLM 服务商）
 
 ---
 
@@ -62,25 +65,28 @@ cd ai-companion
 docker compose up --build -d
 ```
 
-浏览器打开 **http://localhost:8080**，按弹窗提示填 API 就行。
+浏览器打开 **http://localhost:8080**，按弹窗提示填 API 即可。
 
-**国内拉镜像慢？** 加个 mirror 配置：
+<details>
+<summary>可选：国内镜像加速</summary>
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.mirror.yml up --build -d
 ```
 
-或者在 Docker Desktop → Settings → Docker Engine 里配 registry mirror，重启 Docker。
+也可在 Docker Desktop → Settings → Docker Engine 配置 registry mirror，然后重启 Docker。
+
+</details>
 
 常用命令：
 
 ```bash
-docker compose ps       # 看看服务状态
-docker compose logs -f  # 盯日志
+docker compose ps       # 服务状态
+docker compose logs -f  # 看日志
 docker compose down     # 停掉
 ```
 
-数据存在 Docker Volume `companion-data` 里。容器里要连宿主机 Ollama 的话，Base URL 填：
+数据存在 Docker Volume `companion-data`。容器内连接宿主机 Ollama 时，Base URL 填：
 
 ```
 http://host.docker.internal:11434/v1
@@ -88,7 +94,7 @@ http://host.docker.internal:11434/v1
 
 ### 本地开发
 
-想改代码的话，前后端分开跑：
+前后端分开跑：
 
 **后端**
 
@@ -108,7 +114,30 @@ npm install
 npm run dev
 ```
 
-访问 **http://localhost:5173**。Vite 会把 `/api` 代理到 `localhost:8000`，记得两边都开着。
+访问 **http://localhost:5173**。Vite 会把 `/api` 代理到 `localhost:8000`，两边都要开着。
+
+---
+
+## 桌面小组件
+
+托盘常驻、悬浮小窗、全局快捷键 `Cmd/Ctrl+Shift+Space` 一键唤起。
+
+> 桌面端与网页端**共享同一个 FastAPI 后端和 SQLite**，会话与消息双向自动同步。
+
+```bash
+# 1. 先起后端（桌面端只是客户端）
+docker compose up --build -d
+
+# 2. 启动桌面小组件（开发模式）
+cd desktop
+npm install
+npm run dev
+
+# 或构建安装包
+npm run dist
+```
+
+详细说明见 [`desktop/README.md`](desktop/README.md)。
 
 ---
 
@@ -131,11 +160,14 @@ Browser → Nginx (前端) → /api/* → FastAPI (后端) → SQLite
                               OpenAI 兼容 LLM 接口
 ```
 
-FastAPI · React · Vite · Tailwind CSS · SQLAlchemy · SQLite · Docker Compose
+FastAPI · React · Vite · Tailwind CSS · SQLAlchemy · SQLite · Docker Compose · Electron
 
 ---
 
-## 项目结构
+## 更多细节
+
+<details>
+<summary>项目结构</summary>
 
 ```
 ai-companion/
@@ -153,19 +185,17 @@ ai-companion/
 └── docker-compose.yml
 ```
 
----
-
-## API 速查
+</details>
 
 <details>
-<summary>展开看接口列表</summary>
+<summary>API 速查</summary>
 
-| 方法 | 路径 | 干嘛的 |
-|------|------|--------|
+| 方法 | 路径 | 说明 |
+|------|------|------|
 | `GET` | `/api/health` | 健康检查 |
 | `GET` | `/api/settings` | 读 LLM 配置（Key 脱敏） |
 | `PUT` | `/api/settings` | 更新 LLM 配置 |
-| `POST` | `/api/settings/test` | 测一下 API 通不通 |
+| `POST` | `/api/settings/test` | 测试 API 连通性 |
 | `GET` | `/api/sessions` | 会话列表 |
 | `POST` | `/api/sessions` | 新建会话 |
 | `PATCH` | `/api/sessions/{id}` | 改标题 / 人设 |
@@ -177,36 +207,14 @@ ai-companion/
 
 </details>
 
----
-
-## 隐私说明
+<details>
+<summary>隐私说明</summary>
 
 - API Key 和聊天记录只存在本地 SQLite
 - 界面上 Key 会做掩码处理
 - 别把 `backend/data/`、`.env`、虚拟环境提交到 Git（已在 `.gitignore` 里）
 
----
-
-## 桌面小组件 🐱
-
-`desktop/` 下是一个 Electron 桌面小组件：常驻系统托盘、悬浮小组件窗口、全局快捷键 `Cmd/Ctrl+Shift+Space` 唤起。
-
-> 桌面端 **和网页端共享同一个 FastAPI 后端和 SQLite**，所以你在网页端建的会话、发的消息，桌面端会自动同步看到，反之亦然。
-
-```bash
-# 1. 先起后端（桌面端只是个客户端）
-docker compose up --build -d
-
-# 2. 启动桌面小组件（开发模式）
-cd desktop
-npm install
-npm run dev
-
-# 或者构建安装包
-npm run dist
-```
-
-详细说明见 [`desktop/README.md`](desktop/README.md)。
+</details>
 
 ---
 

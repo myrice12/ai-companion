@@ -33,3 +33,6 @@ desktop/.vite/
 # Logs
 *.log
 npm-debug.log*
+
+# Brainstorming prototypes
+.superpowers/
